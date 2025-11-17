@@ -1,26 +1,23 @@
+import useAuthStore from "@/store/auth.store";
+import * as Sentry from "@sentry/react-native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import "./global.css";
-import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
-  dsn: 'https://973f29bf9d2a181a1eb3137e971a30e3@o4510307226877952.ingest.de.sentry.io/4510307277275216',
+  dsn: "https://973f29bf9d2a181a1eb3137e971a30e3@o4510307226877952.ingest.de.sentry.io/4510307277275216",
 
-  // Adds more context data to events (IP address, cookies, user, etc.)
-  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
   sendDefaultPii: true,
 
-  // Enable Logs
   enableLogs: true,
 
-  // Configure Session Replay
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1,
-  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
-
-  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
-  // spotlight: __DEV__,
+  integrations: [
+    Sentry.mobileReplayIntegration(),
+    Sentry.feedbackIntegration(),
+  ],
 });
 
 export default Sentry.wrap(function RootLayout() {
@@ -32,9 +29,18 @@ export default Sentry.wrap(function RootLayout() {
     "QuickSand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
   });
 
+  const { isLoading, fetchAuthenticatedUser } = useAuthStore();
+
   useEffect(() => {
     if (error) throw error;
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
+
+  useEffect(() => {
+    fetchAuthenticatedUser();
+  }, []);
+
+  if (!fontsLoaded || isLoading) return null;
+
   return <Stack screenOptions={{ headerShown: false }} />;
 });
