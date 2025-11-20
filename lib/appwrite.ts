@@ -1,4 +1,4 @@
-import { CreateUserPrams, SignInParams } from "@/type";
+import { CreateUserPrams, GetMenuParams, SignInParams } from "@/type";
 import {
   Account,
   Avatars,
@@ -13,7 +13,12 @@ export const appwrite = {
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
   databaseId: "6908921f00370af33691",
+  bucketId: "691b0a4f000d917c08ae",
   userCollectionId: "user",
+  categoriesCollectionId: "categories",
+  menuCollectionId: "menu",
+  customizationsCollectionId: "customizations",
+  menuCustomizationsCollectionId: "menu_customizations",
   platform: "com.monte.fastfood",
 };
 
@@ -121,5 +126,35 @@ export const getCurrentUser = async () => {
   } catch (error: any) {
     console.error("❌ [getCurrentUser] Hata:", error.message || error);
     throw new Error(error.message || "Kullanıcı bilgisi alınamadı");
+  }
+};
+
+export const getMenu = async ({ category, query }: GetMenuParams) => {
+  try {
+    const queries: string[] = [];
+    if (category) queries.push(Query.equal("categories", category));
+    if (query) queries.push(Query.search("name", query));
+
+    const menus = await databases.listDocuments(
+      appwrite.databaseId,
+      appwrite.menuCollectionId,
+      queries
+    );
+    return menus.documents;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getCategories = async () => {
+  try {
+    const categories = await databases.listDocuments(
+      appwrite.databaseId,
+      appwrite.categoriesCollectionId
+    );
+
+    return categories.documents;
+  } catch (e) {
+    throw new Error(e as string);
   }
 };
