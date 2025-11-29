@@ -7,3 +7,7 @@ bundle ıd com.monte.fastfood
 consola json formatında gormek için ==> console.log("USER", JSON.stringify(user, null, 2));
 
 use-debounce → bir değeri veya fonksiyonu belirli bir süre geciktirerek çalıştırır.
+
+SENTRY İLE ERROR VE DEBUG KONTROLU YAPTIK
+
+appwrite İLE DB YAPTIK

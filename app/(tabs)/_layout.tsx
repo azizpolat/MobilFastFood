@@ -68,7 +68,7 @@ const Tablayout = () => {
         options={{
           title: "Search",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon title="search" icon={images.search} focused={focused} />
+            <TabBarIcon title="Search" icon={images.search} focused={focused} />
           ),
         }}
       />
