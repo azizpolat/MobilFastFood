@@ -1,3 +1,4 @@
+import { useCartStore } from "@/store/cart.store";
 import { MenuItem } from "@/type";
 import { useState } from "react";
 import {
@@ -11,6 +12,8 @@ import {
 
 const MenuCard = ({ item }: { item: MenuItem }) => {
   const [loading, setLoading] = useState(true);
+  const { addItem } = useCartStore();
+
   return (
     <TouchableOpacity
       className="menu-card"
@@ -39,15 +42,15 @@ const MenuCard = ({ item }: { item: MenuItem }) => {
         From ${item?.item?.price}
       </Text>
       <TouchableOpacity
-      // onPress={() =>
-      //   addItem({
-      //     id: $id,
-      //     name,
-      //     price,
-      //     image_url: imageUrl,
-      //     customizations: [],
-      //   })
-      // }
+        onPress={() =>
+          addItem({
+            id: item?.item?.$id,
+            name: item?.item?.name,
+            price: item?.item?.price,
+            image_url: item?.item?.image_url,
+            customizations: [],
+          })
+        }
       >
         <Text className="paragraph-bold text-primary">Add to Cart +</Text>
       </TouchableOpacity>

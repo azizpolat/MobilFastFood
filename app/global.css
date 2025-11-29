@@ -20,6 +20,9 @@
   .cart-btn {
     @apply flex items-center justify-center size-10 rounded-full bg-dark-100;
   }
+  .cart-btn-new {
+    @apply flex items-center justify-center size-10 rounded-full bg-[#FFF9F2] border;
+  }
 
   .cart-badge {
     @apply absolute -top-2 -right-1 flex items-center justify-center size-5 bg-primary rounded-full;
